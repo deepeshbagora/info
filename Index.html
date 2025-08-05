@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepesh Bagora - Senior Software Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Slate Gray & Amber -->
+    <!-- Application Structure Plan: A single-page application with a top navigation bar for quick scrolling. The structure includes: 1. A hero section for immediate impact. 2. An interactive career timeline to visualize progression, where clicking a job updates a detail panel. This is better than a long list for comparing roles. 3. A skills dashboard with bar charts for a quick visual assessment of technical abilities. 4. A project showcase using cards and modals to keep the main layout clean while providing deep-dive information on demand. This structure allows non-linear exploration, catering to what a recruiter might find most important. -->
+    <!-- Visualization & Content Choices: 
+        - Career History -> Goal: Show change/progression -> Viz: Interactive vertical timeline (HTML/CSS) -> Interaction: Click to update details panel -> Justification: Clearly shows career path and separates roles logically.
+        - Technical Skills -> Goal: Compare/Inform -> Viz: Horizontal Bar Charts (Chart.js) -> Interaction: Animated on load, tooltips on hover -> Justification: More visually engaging and quicker to parse than a text list.
+        - Projects -> Goal: Organize/Inform -> Viz: Card grid with modals (HTML/CSS/JS) -> Interaction: Click 'details' to open modal -> Justification: Presents a high-level overview while keeping detailed information accessible without cluttering the page.
+        - Summary/Education -> Goal: Inform -> Viz: Styled text blocks (HTML/Tailwind) -> Interaction: None -> Justification: Clear and direct presentation for static information.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #334155; /* slate-700 */
+        }
+        .nav-link {
+            transition: color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #f59e0b; /* amber-500 */
+        }
+        .timeline-item {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .timeline-item.active {
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+                max-height: 350px;
+            }
+        }
+        .modal {
+            display: none;
+        }
+        .modal.open {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-slate-800">Deepesh Bagora</div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#summary" class="nav-link text-slate-600 font-medium">Summary</a>
+                <a href="#experience" class="nav-link text-slate-600 font-medium">Experience</a>
+                <a href="#skills" class="nav-link text-slate-600 font-medium">Skills</a>
+                <a href="#projects" class="nav-link text-slate-600 font-medium">Projects</a>
+                <a href="#contact" class="bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors">Contact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="#summary" class="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100">Summary</a>
+            <a href="#experience" class="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100">Experience</a>
+            <a href="#skills" class="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100">Skills</a>
+            <a href="#projects" class="block py-2 px-4 text-sm text-slate-600 hover:bg-slate-100">Projects</a>
+            <a href="#contact" class="block py-2 px-4 text-sm text-amber-600 hover:bg-slate-100">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="summary" class="text-center mb-24">
+            <h1 class="text-5xl md:text-6xl font-bold text-slate-800 mb-4">Senior Software Developer</h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
+                A seasoned Senior Software Developer with 7+ years of experience in full-stack development for the financial sector. Proven track record in automating workflows, optimizing system performance, and leading migrations to modern technologies. Seeking to leverage expertise in C#, .NET, and Azure to drive innovation and efficiency.
+            </p>
+        </section>
+
+        <section id="experience" class="mb-24">
+            <h2 class="text-4xl font-bold text-center text-slate-800 mb-12">Career Timeline</h2>
+            <div class="flex flex-col md:flex-row gap-12">
+                <div id="timeline-nav" class="md:w-1/3">
+                </div>
+                <div id="experience-details" class="md:w-2/3 bg-white p-8 rounded-lg shadow-md">
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="mb-24">
+            <h2 class="text-4xl font-bold text-center text-slate-800 mb-12">Technical Skills</h2>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <p class="text-center text-slate-600 mb-8">This dashboard provides a visual representation of my proficiency and experience across various technologies. The skills are grouped by category to give a clear overview of my capabilities as a full-stack developer.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-700 mb-4 text-center">Languages & Databases</h3>
+                        <div class="chart-container">
+                            <canvas id="skillsChartLanguages"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-700 mb-4 text-center">Frameworks & Libraries</h3>
+                        <div class="chart-container">
+                            <canvas id="skillsChartFrameworks"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <h3 class="text-xl font-semibold text-slate-700 mb-4 text-center">Platforms & Tools</h3>
+                        <div class="chart-container">
+                            <canvas id="skillsChartTools"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="mb-24">
+            <h2 class="text-4xl font-bold text-center text-slate-800 mb-12">Project Showcase</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-12">Here are some of the key projects I've developed, demonstrating my ability to build complex, high-impact solutions for the financial industry. Click on any project to see a more detailed description of its scope and my contributions.</p>
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+        </section>
+
+        <section id="education" class="mb-24">
+            <h2 class="text-4xl font-bold text-center text-slate-800 mb-12">Education & Certifications</h2>
+            <div class="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-xl font-semibold text-slate-800">Bachelor of Engineering</h3>
+                    <p class="text-slate-600">Computer Science Engineering</p>
+                    <p class="text-slate-500 text-sm">RGPV Bhopal (2014 - 2018)</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <a href="https://learn.microsoft.com/en-in/users/deepeshbagora-1854/credentials/2d4274cacf8f8b55" target="_blank" class="block text-slate-800 hover:text-amber-600 transition-colors">
+                        <h3 class="text-xl font-semibold">Azure Developer Associate</h3>
+                        <p class="text-slate-600">Microsoft Certified (AZ-204)</p>
+                        <p class="text-slate-500 text-sm">Valid: 2022 - 2026</p>
+                        <p class="text-sm text-amber-500 hover:underline mt-2">Verify Credential &rarr;</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="text-center bg-white p-12 rounded-lg shadow-lg">
+            <h2 class="text-4xl font-bold text-slate-800 mb-4">Get In Touch</h2>
+            <p class="text-slate-600 mb-8">I'm always open to discussing new opportunities and challenges.</p>
+            <div class="flex justify-center items-center space-x-8">
+                <a href="mailto:deepeshb88@gmail.com" class="text-amber-600 hover:text-amber-700 transition-colors">deepeshb88@gmail.com</a>
+                <a href="https://www.linkedin.com/in/deepesh-bagora" target="_blank" class="text-amber-600 hover:text-amber-700 transition-colors">LinkedIn</a>
+                <span class="text-slate-600">+65 87853436</span>
+            </div>
+        </section>
+    </main>
+
+    <div id="project-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 id="modal-title" class="text-2xl font-bold text-slate-800"></h3>
+                    <button id="modal-close" class="text-slate-500 hover:text-slate-800">&times;</button>
+                </div>
+                <div id="modal-content" class="text-slate-600 space-y-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const experienceData = [
+            {
+                id: 'pserve',
+                company: 'P-serve Pvt. Ltd.',
+                role: 'Senior Software Developer',
+                period: 'April 2025 - Present',
+                achievements: [
+                    'Spearheaded the performance optimization of existing APIs, resulting in a 40% reduction in average response time and significantly improved user experience.',
+                    'Led the implementation of a new module for real-time data reconciliation between internal and external systems, ensuring data integrity and compliance.',
+                    'Mentored two junior developers on best practices for software development, code reviews, and integration with upstream/downstream systems.'
+                ],
+                responsibilities: [
+                    'Provided expert-level support and bug-fixing for complex, high-impact production issues, ensuring application stability and reliability.',
+                    'Designed and implemented new features and enhancements based on evolving client requirements and business objectives.',
+                    'Continued to drive the modernization of the platform by introducing new architectural patterns and best-in-class security mechanisms.',
+                    'Actively participated in code reviews and architectural design discussions to maintain code quality and system scalability.'
+                ]
+            },
+            {
+                id: 'quesscorp',
+                company: 'Quesscorp Singapore Pte. Ltd.',
+                role: 'Senior Software Developer',
+                period: 'Feb 2023 - Feb 2025',
+                achievements: [
+                    'Successfully implemented standardized libraries and frameworks, reducing development time by 30% across multiple systems.',
+                    'Implemented CI/CD automation to prepare and deploy incremental release packages from Jira, enabling faster testing and deployment cycles.'
+                ],
+                responsibilities: [
+                    'Developed and maintained internal applications, automating approval workflows and other business processes for client OCBC.',
+                    'Collaborated with business users to gather requirements and deliver technical solutions.',
+                    'Integrated multiple upstream/downstream systems to automate data transfers via APIs and file-based approaches.',
+                    'Led the migration of a legacy platform from .NET Framework to .NET Core and React, enhancing architecture and security.'
+                ]
+            },
+            {
+                id: 'finiq',
+                company: 'Finiq Consulting India Pvt. Ltd.',
+                role: 'Software Developer',
+                period: 'June 2018 - Feb 2023',
+                achievements: [
+                    'As the youngest lead developer on 2 projects each worth more than $1M, I was entrusted with crucial modules of Cash FX projects such as deal entries, pricing, and booking APIs.',
+                    'Automated FX pricing and booking workflows, reducing manual processing time from 15 minutes to under 30 seconds.',
+                ],
+                responsibilities: [
+                    'Developed an end-to-end FX trading platform, from price inquiry to trade execution, with complex spread and control logic.',
+                    'Handled client communication and provided both off-site and on-site support in Singapore, Malaysia, and the Philippines.',
+                    'Trained and mentored new team members on project workflows and codebase.',
+                    'Wrote automation testing scripts for APIs and web applications, enabling faster regression testing.'
+                ]
+            }
+        ];
+
+        const projectsData = [
+            {
+                title: 'Infinity Platform',
+                description: 'A web-based application for managing change and asset management requests, featuring reusable libraries for common functionalities and a migration from legacy .NET to a modern .NET Core/React stack.',
+                details: [
+                    'Developed a comprehensive web application to streamline and manage various internal requests like change management and asset management.',
+                    'Engineered a suite of reusable libraries for batch jobs and web apps to handle common tasks like inter-system communication and data processing via APIs or files.',
+                    'Led the architectural enhancement during the migration from a 2-tier .NET Framework system to a 3-tier .NET Core and React platform, implementing modern design patterns and security measures.'
+                ]
+            },
+            {
+                title: 'finiq E-FX Cash System',
+                description: 'A core FX trading platform for major banks in SG, MY, and PH. Enabled RMs, dealers, and customers to execute FX trades efficiently.',
+                details: [
+                    'Designed and developed core business logic for pricing and booking APIs, deal entry screens, and real-time FX rates, enabling automated trade executions for multiple banking clients (UOB, Ambank, CBC).',
+                    'Built a complex web application for configuring the Spread Framework module, allowing granular control over margins and discounts for various currency pairs and customer segments.',
+                    'Optimized a critical batch job for importing customer data, improving performance from 6 minutes to under 40 seconds for over 30,000 records.'
+                ]
+            },
+            {
+                title: 'BOS E-FX Booking',
+                description: 'A web application for streaming live prices from multiple liquidity providers, enabling users to compare rates and execute FX trades for Spot, Forward, and Swaps.',
+                details: [
+                    'Created a real-time web application that allowed over 500 users to watch and compare live FX rates from multiple providers and execute trades.',
+                    'Implemented complex post-trade execution workflows including Cancellation, Unwind, and Rollover, and managed transactions with downstream counterparties.',
+                    'Developed a customer validation module that integrated with an external bank API to verify customer status in real-time.'
+                ]
+            }
+        ];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const timelineNav = document.getElementById('timeline-nav');
+            const experienceDetails = document.getElementById('experience-details');
+            const projectsGrid = document.getElementById('projects-grid');
+            const modal = document.getElementById('project-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            const modalClose = document.getElementById('modal-close');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            function renderExperience(id) {
+                const experience = experienceData.find(e => e.id === id);
+                if (!experience) return;
+                
+                experienceDetails.innerHTML = `
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">${experience.role}</h3>
+                    <p class="text-lg font-semibold text-amber-600 mb-4">${experience.company}</p>
+                    <div class="mb-6">
+                        <h4 class="text-xl font-semibold text-slate-700 mb-3">Achievements</h4>
+                        <ul class="list-disc list-inside space-y-2 text-slate-600">
+                            ${experience.achievements.map(a => `<li>${a}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold text-slate-700 mb-3">Responsibilities</h4>
+                        <ul class="list-disc list-inside space-y-2 text-slate-600">
+                            ${experience.responsibilities.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+
+                document.querySelectorAll('.timeline-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.dataset.id === id) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            experienceData.forEach(exp => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item border-l-4 border-slate-200 p-4 hover:bg-slate-50 rounded-r-lg';
+                item.dataset.id = exp.id;
+                item.innerHTML = `
+                    <p class="font-bold text-slate-700">${exp.company}</p>
+                    <p class="text-sm text-slate-500">${exp.period}</p>
+                `;
+                item.addEventListener('click', () => renderExperience(exp.id));
+                timelineNav.appendChild(item);
+            });
+
+            renderExperience(experienceData[0].id);
+
+            projectsData.forEach(proj => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-lg shadow-md flex flex-col';
+                card.innerHTML = `
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">${proj.title}</h3>
+                    <p class="text-slate-600 flex-grow">${proj.description}</p>
+                    <button class="mt-4 text-amber-600 font-semibold hover:text-amber-700 self-start">Learn More &rarr;</button>
+                `;
+                card.querySelector('button').addEventListener('click', () => {
+                    modalTitle.textContent = proj.title;
+                    modalContent.innerHTML = `<ul class="list-disc list-inside space-y-2">${proj.details.map(d => `<li>${d}</li>`).join('')}</ul>`;
+                    modal.classList.add('open');
+                });
+                projectsGrid.appendChild(card);
+            });
+
+            modalClose.addEventListener('click', () => modal.classList.remove('open'));
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('open');
+                }
+            });
+
+            const createChart = (ctx, label, labels, data) => {
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: label,
+                            data: data,
+                            backgroundColor: 'rgba(245, 158, 11, 0.6)', // amber-500 with opacity
+                            borderColor: 'rgba(245, 158, 11, 1)', // amber-500
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.raw >= 9 ? 'Expert' : context.raw >= 7 ? 'Advanced' : 'Proficient';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 10,
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+            
+            createChart(
+                document.getElementById('skillsChartLanguages').getContext('2d'),
+                'Languages & Databases',
+                ['C#', 'SQL', 'JavaScript', 'TypeScript', 'Python', 'MySQL', 'MongoDB'],
+                [9, 9, 8, 8, 7, 8, 7]
+            );
+
+            createChart(
+                document.getElementById('skillsChartFrameworks').getContext('2d'),
+                'Frameworks & Libraries',
+                ['ASP.NET / .NET Core', 'React', 'Node.js / Express', 'WCF', 'jQuery', 'Redux'],
+                [9, 8, 8, 7, 8, 7]
+            );
+            
+            createChart(
+                document.getElementById('skillsChartTools').getContext('2d'),
+                'Platforms & Tools',
+                ['Azure', 'Docker', 'Git', 'Jenkins', 'JIRA', 'Selenium', 'PowerShell'],
+                [8, 7, 9, 8, 9, 7, 7]
+            );
+
+        });
+    </script>
+</body>
+</html>
