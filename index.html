@@ -635,7 +635,8 @@
                     'Architected migration from 2-tier .NET Framework to modern 3-tier stack',
                     'Implemented security-first design patterns and cloud-ready architecture'
                 ],
-                tags: ['.NET Core', 'React', 'SQL Server', 'Microservices']
+                tags: ['.NET Core', 'React', 'SQL Server', 'Microservices'],
+                category: 'enterprise'
             },
             {
                 title: 'finiq E-FX Cash System',
@@ -646,7 +647,8 @@
                     'Optimized customer import from 6 minutes to 40 seconds (30K+ records)',
                     'Enabled real-time FX trading for relationship managers and dealers'
                 ],
-                tags: ['C#', 'WCF', 'SQL Server', 'Real-time']
+                tags: ['C#', 'WCF', 'SQL Server', 'Real-time'],
+                category: 'enterprise'
             },
             {
                 title: 'BOS E-FX Booking',
@@ -657,62 +659,36 @@
                     'Integrated external bank API for real-time customer validation',
                     'Managed multi-provider liquidity aggregation and execution'
                 ],
-                tags: ['ASP.NET', 'JavaScript', 'WebSockets', 'API Integration']
-            }
-        ];
-
-        const aiProjectsData = [
-            {
-                title: 'Intelligent Document Assistant',
-                description: 'RAG-based system for querying documents using vector embeddings and LLMs. Upload PDFs, Word docs, or text files and ask questions to get accurate, context-aware responses with citations.',
-                details: [
-                    'Built document processing pipeline with semantic chunking and metadata preservation',
-                    'Integrated vector database (Pinecone/ChromaDB) for fast similarity search',
-                    'Implemented RAG with LangChain for context-aware Q&A with source citations',
-                    'Created React frontend with drag-and-drop upload and chat interface'
-                ],
-                tags: ['RAG', 'LangChain', 'OpenAI', 'Vector DB', 'Python', 'React'],
-                status: 'In Development',
-                github: '#'
+                tags: ['ASP.NET', 'JavaScript', 'WebSockets', 'API Integration'],
+                category: 'enterprise'
             },
             {
-                title: 'AI Code Review Assistant',
-                description: 'Fine-tuned LLM for automated code reviews. Provides intelligent feedback on code quality, security vulnerabilities, and best practices aligned with team standards.',
+                title: 'AstraCoder',
+                description: 'Agentic coding workflow system that autonomously generates code through GitHub webhook integration with intelligent task distribution and cost optimization.',
                 details: [
-                    'Collected and curated dataset from GitHub code reviews and internal feedback',
-                    'Fine-tuned CodeLlama using LoRA for efficient parameter updates',
-                    'Integrated with GitHub API for automated PR review comments',
-                    'Achieved 75% acceptance rate on suggested improvements'
+                    'Automated workflow triggered by GitHub webhooks to process specification commits',
+                    'Intelligent task breakdown system splitting complex requirements into manageable subtasks',
+                    'Sandboxed Docker containers for isolated code generation environments',
+                    'Cost-optimized AI model selection: cheaper models for simple tasks, advanced models for complexity',
+                    'Integration with Aider for enhanced code generation and refactoring capabilities',
+                    'Automated pull request creation with generated code and comprehensive testing'
                 ],
-                tags: ['Fine-tuning', 'LoRA', 'CodeLlama', 'GitHub API', 'MLOps'],
-                status: 'Planned',
-                github: '#'
+                tags: ['Python', 'Docker', 'GitHub API', 'AI/ML', 'Aider', 'LLM Orchestration'],
+                category: 'ai-ml'
             },
             {
-                title: 'AI Workflow Automation Platform',
-                description: 'Intelligent automation using n8n + LLMs for adaptive workflows. Combines traditional automation with AI decision-making for email processing, document intelligence, and customer support.',
+                title: 'Hybrid Advanced RAG System',
+                description: 'Next-generation retrieval system combining Graph RAG with traditional RAG techniques for superior query accuracy and contextual understanding.',
                 details: [
-                    'Built n8n workflows with custom LLM nodes for intelligent processing',
-                    'Implemented email classification, auto-routing, and context-aware responses',
-                    'Created document extraction pipeline for invoices and contracts using GPT-4',
-                    'Integrated RAG for knowledge base search in customer support automation'
+                    'Hybrid architecture merging Graph RAG for relationship mapping with vector-based RAG',
+                    'Knowledge graph construction for understanding entity relationships and context',
+                    'Multi-stage retrieval pipeline for enhanced accuracy and relevance',
+                    'Advanced query decomposition and rewriting for complex questions',
+                    'Semantic caching layer for improved response times and cost efficiency',
+                    'Support for multiple embedding models and vector databases for optimal performance'
                 ],
-                tags: ['n8n', 'Workflow Automation', 'GPT-4', 'RAG', 'Node.js'],
-                status: 'Planned',
-                github: '#'
-            },
-            {
-                title: 'Personalized Learning Assistant',
-                description: 'Hybrid RAG + fine-tuning system that adapts to individual learning styles. Combines knowledge retrieval with personalized teaching approaches for programming education.',
-                details: [
-                    'Built educational content repository with semantic search capabilities',
-                    'Fine-tuned model on student-teacher conversations for personalized explanations',
-                    'Implemented adaptive difficulty adjustment based on student performance',
-                    'Created spaced repetition algorithm for optimal concept retention'
-                ],
-                tags: ['RAG', 'Fine-tuning', 'EdTech', 'Personalization', 'LangChain'],
-                status: 'Planned',
-                github: '#'
+                tags: ['Python', 'Graph RAG', 'Vector DB', 'LangChain', 'Neo4j', 'LLM'],
+                category: 'ai-ml'
             }
         ];
 
@@ -842,7 +818,10 @@
             const modalContent = document.getElementById('modal-content');
             const modalClose = document.getElementById('modal-close');
 
-            projectsData.forEach(proj => {
+            // Filter to show only enterprise projects (hide AI/ML projects for now)
+            const visibleProjects = projectsData.filter(proj => proj.category === 'enterprise');
+
+            visibleProjects.forEach(proj => {
                 const card = document.createElement('div');
                 card.className = 'project-card bg-white p-6 rounded-2xl shadow-md flex flex-col';
                 card.innerHTML = `
