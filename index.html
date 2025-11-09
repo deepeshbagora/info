@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deepesh Bagora - Senior Software Developer</title>
+    <title>Deepesh Bagora - Tech Enthusiast & Software Developer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -217,6 +217,7 @@
                     <a href="#experience" class="nav-link text-slate-600 font-medium text-sm">Experience</a>
                     <a href="#skills" class="nav-link text-slate-600 font-medium text-sm">Skills</a>
                     <a href="#projects" class="nav-link text-slate-600 font-medium text-sm">Projects</a>
+                    <a href="#ai-projects" class="nav-link text-slate-600 font-medium text-sm">AI/ML</a>
                     <a href="#contact" class="btn-primary text-white px-5 py-2 rounded-lg font-medium text-sm">
                         Let's Talk
                     </a>
@@ -236,6 +237,7 @@
                 <a href="#experience" class="block py-2 px-3 text-slate-600 hover:bg-slate-50 rounded-md">Experience</a>
                 <a href="#skills" class="block py-2 px-3 text-slate-600 hover:bg-slate-50 rounded-md">Skills</a>
                 <a href="#projects" class="block py-2 px-3 text-slate-600 hover:bg-slate-50 rounded-md">Projects</a>
+                <a href="#ai-projects" class="block py-2 px-3 text-slate-600 hover:bg-slate-50 rounded-md">AI/ML</a>
                 <a href="#contact" class="block py-2 px-3 text-amber-600 font-medium hover:bg-slate-50 rounded-md">Contact</a>
             </div>
         </div>
@@ -262,11 +264,11 @@
                     </h1>
 
                     <p class="text-xl md:text-2xl text-slate-300 mb-4 font-light">
-                        Senior Software Developer
+                        Tech Enthusiast • Problem Solver • Lifelong Learner
                     </p>
 
                     <p class="text-base md:text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-                        7+ years building high-performance financial applications. Specialized in full-stack development with C#, .NET, React, and Azure. I turn complex requirements into scalable solutions.
+                        Currently a Senior Software Developer with 7+ years of experience building high-performance financial applications. I'm passionate about technology, always eager to learn cutting-edge tools, and ready to implement innovative solutions. Specialized in full-stack development with C#, .NET, React, and Azure—I turn complex challenges into scalable, elegant solutions.
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -288,7 +290,7 @@
                         </div>
                         <div class="text-center">
                             <div class="text-3xl font-bold text-amber-400">$2M+</div>
-                            <div class="text-slate-400 mt-1">Projects Led</div>
+                            <div class="text-slate-400 mt-1">Lead Developer</div>
                         </div>
                         <div class="text-center">
                             <div class="text-3xl font-bold text-amber-400">40%</div>
@@ -450,6 +452,21 @@
                 </div>
 
                 <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto"></div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- AI/ML Projects Section -->
+            <section id="ai-projects" class="py-16 md:py-24 fade-in">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">AI/ML Projects</h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-amber-500 to-amber-600 mx-auto rounded-full mb-4"></div>
+                    <p class="text-slate-600 max-w-2xl mx-auto">
+                        Transitioning to AI/ML engineering with hands-on projects in RAG, fine-tuning, and intelligent automation
+                    </p>
+                </div>
+
+                <div id="ai-projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto"></div>
             </section>
 
             <div class="section-divider"></div>
@@ -618,7 +635,7 @@
                     'Architected migration from 2-tier .NET Framework to modern 3-tier stack',
                     'Implemented security-first design patterns and cloud-ready architecture'
                 ],
-                tags: ['.NET Core', 'React', 'Azure', 'Microservices']
+                tags: ['.NET Core', 'React', 'SQL Server', 'Microservices']
             },
             {
                 title: 'finiq E-FX Cash System',
@@ -641,6 +658,61 @@
                     'Managed multi-provider liquidity aggregation and execution'
                 ],
                 tags: ['ASP.NET', 'JavaScript', 'WebSockets', 'API Integration']
+            }
+        ];
+
+        const aiProjectsData = [
+            {
+                title: 'Intelligent Document Assistant',
+                description: 'RAG-based system for querying documents using vector embeddings and LLMs. Upload PDFs, Word docs, or text files and ask questions to get accurate, context-aware responses with citations.',
+                details: [
+                    'Built document processing pipeline with semantic chunking and metadata preservation',
+                    'Integrated vector database (Pinecone/ChromaDB) for fast similarity search',
+                    'Implemented RAG with LangChain for context-aware Q&A with source citations',
+                    'Created React frontend with drag-and-drop upload and chat interface'
+                ],
+                tags: ['RAG', 'LangChain', 'OpenAI', 'Vector DB', 'Python', 'React'],
+                status: 'In Development',
+                github: '#'
+            },
+            {
+                title: 'AI Code Review Assistant',
+                description: 'Fine-tuned LLM for automated code reviews. Provides intelligent feedback on code quality, security vulnerabilities, and best practices aligned with team standards.',
+                details: [
+                    'Collected and curated dataset from GitHub code reviews and internal feedback',
+                    'Fine-tuned CodeLlama using LoRA for efficient parameter updates',
+                    'Integrated with GitHub API for automated PR review comments',
+                    'Achieved 75% acceptance rate on suggested improvements'
+                ],
+                tags: ['Fine-tuning', 'LoRA', 'CodeLlama', 'GitHub API', 'MLOps'],
+                status: 'Planned',
+                github: '#'
+            },
+            {
+                title: 'AI Workflow Automation Platform',
+                description: 'Intelligent automation using n8n + LLMs for adaptive workflows. Combines traditional automation with AI decision-making for email processing, document intelligence, and customer support.',
+                details: [
+                    'Built n8n workflows with custom LLM nodes for intelligent processing',
+                    'Implemented email classification, auto-routing, and context-aware responses',
+                    'Created document extraction pipeline for invoices and contracts using GPT-4',
+                    'Integrated RAG for knowledge base search in customer support automation'
+                ],
+                tags: ['n8n', 'Workflow Automation', 'GPT-4', 'RAG', 'Node.js'],
+                status: 'Planned',
+                github: '#'
+            },
+            {
+                title: 'Personalized Learning Assistant',
+                description: 'Hybrid RAG + fine-tuning system that adapts to individual learning styles. Combines knowledge retrieval with personalized teaching approaches for programming education.',
+                details: [
+                    'Built educational content repository with semantic search capabilities',
+                    'Fine-tuned model on student-teacher conversations for personalized explanations',
+                    'Implemented adaptive difficulty adjustment based on student performance',
+                    'Created spaced repetition algorithm for optimal concept retention'
+                ],
+                tags: ['RAG', 'Fine-tuning', 'EdTech', 'Personalization', 'LangChain'],
+                status: 'Planned',
+                github: '#'
             }
         ];
 
@@ -803,6 +875,66 @@
                 });
 
                 projectsGrid.appendChild(card);
+            });
+
+            // AI/ML Projects
+            const aiProjectsGrid = document.getElementById('ai-projects-grid');
+
+            aiProjectsData.forEach(proj => {
+                const card = document.createElement('div');
+                card.className = 'project-card bg-white p-6 rounded-2xl shadow-md flex flex-col';
+
+                const statusColors = {
+                    'In Development': 'bg-green-100 text-green-700',
+                    'Planned': 'bg-blue-100 text-blue-700',
+                    'Completed': 'bg-amber-100 text-amber-700'
+                };
+
+                card.innerHTML = `
+                    <div class="mb-4">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="icon w-6 h-6 text-white" fill="none" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <span class="px-3 py-1 ${statusColors[proj.status]} rounded-full text-xs font-semibold">
+                                ${proj.status}
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-800 mb-3">${proj.title}</h3>
+                        <p class="text-slate-600 leading-relaxed flex-grow">${proj.description}</p>
+                    </div>
+                    <button class="mt-auto inline-flex items-center gap-2 text-purple-600 font-semibold hover:text-purple-700 transition-colors self-start">
+                        View Details
+                        <svg class="icon w-4 h-4" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </button>
+                `;
+
+                card.querySelector('button').addEventListener('click', () => {
+                    modalTitle.textContent = proj.title;
+                    modalContent.innerHTML = `
+                        <div class="mb-4">
+                            <span class="px-3 py-1 ${statusColors[proj.status]} rounded-full text-sm font-semibold">
+                                ${proj.status}
+                            </span>
+                        </div>
+                        <p class="text-slate-600 mb-4">${proj.description}</p>
+                        <h4 class="font-semibold text-slate-800 mb-3">Implementation Details:</h4>
+                        <ul class="space-y-3 mb-6">
+                            ${proj.details.map(d => `<li class="flex items-start gap-3"><svg class="icon w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span>${d}</span></li>`).join('')}
+                        </ul>
+                        ${proj.tags ? `<div class="flex flex-wrap gap-2 mb-4">${proj.tags.map(tag => `<span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">${tag}</span>`).join('')}</div>` : ''}
+                        <p class="text-sm text-slate-500 mt-4">
+                            📄 <a href="ai-projects/${proj.title.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-')}.md" class="text-purple-600 hover:text-purple-700 font-medium">View detailed project guide</a>
+                        </p>
+                    `;
+                    modal.classList.add('open');
+                });
+
+                aiProjectsGrid.appendChild(card);
             });
 
             modalClose.addEventListener('click', () => modal.classList.remove('open'));
