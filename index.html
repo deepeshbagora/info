@@ -293,8 +293,8 @@
                             <div class="text-slate-400 mt-1">Lead Developer</div>
                         </div>
                         <div class="text-center">
-                            <div class="text-3xl font-bold text-amber-400">40%</div>
-                            <div class="text-slate-400 mt-1">Performance Boost</div>
+                            <div class="text-3xl font-bold text-amber-400">30%</div>
+                            <div class="text-slate-400 mt-1">Productivity Boost</div>
                         </div>
                     </div>
                 </div>
@@ -319,7 +319,7 @@
                             </div>
                             <h3 class="text-xl font-semibold text-slate-800 mb-3">Performance Focused</h3>
                             <p class="text-slate-600 leading-relaxed">
-                                Proven track record of optimizing critical systems, reducing API response times by 40% and improving batch processing from 6 minutes to 40 seconds.
+                                Proven track record of optimizing critical systems, improving batch processing from 6 minutes to 40 seconds and reducing manual audit time by 60%.
                             </p>
                         </div>
 
@@ -580,15 +580,13 @@
                 role: 'Senior Software Developer',
                 period: 'April 2025 - Present',
                 achievements: [
-                    'Optimized API performance by 40%, dramatically improving user experience',
-                    'Built real-time data reconciliation module ensuring compliance and data integrity',
-                    'Mentored 2 junior developers on best practices and system integration'
+                    'Converted application to microservice and microfrontend based architecture using common libraries and npm packages, enabling faster shipping of features for independent modules',
+                    'Built real-time data reconciliation module for cross-system identity verification reducing manual audit time by 60%'
                 ],
                 responsibilities: [
-                    'Resolved critical production issues with expert-level debugging',
-                    'Delivered new features aligned with evolving client requirements',
-                    'Modernized platform architecture with cutting-edge patterns and security',
-                    'Led code reviews and architectural discussions for system scalability'
+                    'Gathering user requirements, providing solutioning for requirements in Infinity application, building webapps, APIs, and batch jobs as per requirement and shipping performant solutions used across the organization',
+                    'Maintaining and collaborating with expanding team, mentoring new joinees on existing frameworks and libraries built to help them deliver modules faster',
+                    'Providing production support to the application'
                 ]
             },
             {
@@ -639,6 +637,20 @@
                 category: 'enterprise'
             },
             {
+                title: 'Vehicle Audit Management Platform',
+                description: 'Full-stack cross-platform application for vehicle inspection tracking, built as a freelance project with iOS, Android, and PWA support.',
+                details: [
+                    'Architected .NET 8.0 REST API with MongoDB/Cosmos DB and Azure Blob Storage integration',
+                    'Built cross-platform mobile app (iOS, Android, PWA) using React Native and TypeScript',
+                    'Implemented dynamic schema system enabling custom audit forms without code changes',
+                    'Integrated Azure AD OAuth 2.0 authentication with role-based access control',
+                    'Delivered PWA with offline support via Service Workers and camera/GPS integration',
+                    'Designed modular architecture with 24,400+ lines of production code'
+                ],
+                tags: ['.NET 8.0', 'React Native', 'TypeScript', 'MongoDB', 'Azure', 'PWA'],
+                category: 'enterprise'
+            },
+            {
                 title: 'finiq E-FX Cash System',
                 description: 'Enterprise FX trading platform serving major banks across Singapore, Malaysia, and Philippines.',
                 details: [
@@ -674,7 +686,8 @@
                     'Automated pull request creation with generated code and comprehensive testing'
                 ],
                 tags: ['Python', 'Docker', 'GitHub API', 'AI/ML', 'Aider', 'LLM Orchestration'],
-                category: 'ai-ml'
+                category: 'ai-ml',
+                status: 'In Development'
             },
             {
                 title: 'Hybrid Advanced RAG System',
@@ -688,7 +701,8 @@
                     'Support for multiple embedding models and vector databases for optimal performance'
                 ],
                 tags: ['Python', 'Graph RAG', 'Vector DB', 'LangChain', 'Neo4j', 'LLM'],
-                category: 'ai-ml'
+                category: 'ai-ml',
+                status: 'In Development'
             }
         ];
 
@@ -858,6 +872,7 @@
 
             // AI/ML Projects
             const aiProjectsGrid = document.getElementById('ai-projects-grid');
+            const aiProjectsData = projectsData.filter(proj => proj.category === 'ai-ml');
 
             aiProjectsData.forEach(proj => {
                 const card = document.createElement('div');

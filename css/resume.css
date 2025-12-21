@@ -3,7 +3,7 @@
 /* Print settings */
 @page {
     size: letter;
-    margin: 0.75in;
+    margin: 0.4in 0.5in;  /* Reduced margins: top/bottom 0.4in, left/right 0.5in */
 }
 
 /* Base styles */
@@ -40,9 +40,27 @@ h1 {
 .contact {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    align-items: center;
+    gap: 4px 10px;
     font-size: 9.5pt;
     color: #4b5563;
+    line-height: 1.5;
+}
+
+.contact span {
+    white-space: nowrap;
+}
+
+/* Force line break after Email (3rd item) */
+.contact span:nth-child(3)::after {
+    content: "";
+    display: block;
+    width: 100%;
+}
+
+.contact .separator {
+    color: #d1d5db;
+    font-weight: 300;
 }
 
 .contact a {
@@ -179,18 +197,164 @@ section {
 /* Print optimization */
 @media print {
     body {
-        font-size: 10pt;
-        line-height: 1.4;
+        font-size: 9pt;  /* Smaller for better fit */
+        line-height: 1.25;  /* Tighter line spacing */
         color: #000;
         padding: 0;
     }
 
+    /* Reduce spacing between sections */
     section {
-        page-break-inside: avoid;
+        margin-bottom: 6px;  /* Further reduced */
     }
 
     h2 {
+        page-break-after: avoid;  /* Keep section titles with content */
+        margin-top: 8px;  /* Further reduced */
+        margin-bottom: 4px;  /* Further reduced */
+        font-size: 12pt;  /* Slightly smaller */
+    }
+
+    h3 {
+        page-break-after: avoid;  /* Keep company names with content */
+        margin-top: 6px;  /* Further reduced */
+        margin-bottom: 2px;
+        font-size: 10.5pt;  /* Slightly smaller */
+    }
+
+    /* Allow experience entries to break if needed, but keep company header with first item */
+    .experience-entry {
+        margin-bottom: 8px;  /* Further reduced */
+    }
+
+    /* Keep company name with at least some content */
+    .experience-entry h3 {
         page-break-after: avoid;
+    }
+
+    /* Allow projects to break across pages if needed */
+    .project {
+        margin-bottom: 8px;  /* Further reduced */
+    }
+
+    /* Keep project title with description */
+    .project-title {
+        page-break-after: avoid;
+    }
+
+    /* Tighter list spacing */
+    ul {
+        margin-bottom: 4px;  /* Further reduced */
+        margin-left: 16px;  /* Slightly less indent */
+    }
+
+    li {
+        line-height: 1.2;  /* Even tighter */
+        margin-bottom: 0.5px;  /* Minimal spacing */
+        font-size: 9pt;
+    }
+
+    .description {
+        line-height: 1.2;  /* Tighter spacing */
+        margin-bottom: 4px;  /* Further reduced */
+        font-size: 9pt;
+    }
+
+    .subsection {
+        margin-top: 4px;  /* Further reduced */
+        margin-bottom: 1px;  /* Minimal spacing */
+        font-size: 9pt;
+    }
+
+    .role {
+        font-size: 9.5pt;
+        margin-bottom: 1px;
+    }
+
+    .period {
+        font-size: 9pt;
+        margin-bottom: 3px;
+    }
+
+    /* Header optimization */
+    header {
+        padding-bottom: 8px;  /* Further reduced */
+        margin-bottom: 10px;  /* Further reduced */
+    }
+
+    h1 {
+        font-size: 22pt;  /* Smaller */
+        margin-bottom: 4px;  /* Minimal spacing */
+    }
+
+    .contact {
+        font-size: 9pt;  /* Consistent sizing */
+        gap: 3px 8px;  /* Smaller vertical gap, reasonable horizontal */
+        line-height: 1.4;
+    }
+
+    .contact span {
+        white-space: nowrap;
+    }
+
+    /* Force line break after Email (3rd item) in print */
+    .contact span:nth-child(3)::after {
+        content: "";
+        display: block;
+        width: 100%;
+    }
+
+    .contact .separator {
+        color: #999;
+    }
+
+    /* Skills optimization */
+    .skills-grid {
+        gap: 4px;
+        margin-bottom: 3px;
+    }
+
+    .skill-category {
+        font-size: 9pt;
+    }
+
+    .skill-list {
+        font-size: 9pt;
+    }
+
+    /* Project optimization */
+    .project-title {
+        font-size: 9.5pt;
+        margin-bottom: 2px;
+    }
+
+    .project-description {
+        font-size: 9pt;
+        margin-bottom: 3px;
+        line-height: 1.2;
+    }
+
+    /* Certification optimization */
+    .certifications {
+        page-break-inside: auto;  /* Allow breaking if needed */
+    }
+
+    .cert-title {
+        font-size: 9pt;
+    }
+
+    .cert-details {
+        font-size: 8.5pt;
+        margin-bottom: 1px;
+    }
+
+    a.cert-link {
+        font-size: 8pt;
+    }
+
+    /* Education - keep compact */
+    .education {
+        page-break-inside: auto;  /* Allow breaking if needed */
     }
 
     .no-print {
