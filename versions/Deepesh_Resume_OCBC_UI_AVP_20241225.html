@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepesh Bagora - Resume</title>
+    <style>
+/* Resume Print-Optimized Styles */
+
+/* Print settings */
+@page {
+    size: letter;
+    margin: 0.4in 0.5in;  /* Reduced margins: top/bottom 0.4in, left/right 0.5in */
+}
+
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+    color: #1a1a1a;
+    max-width: 8.5in;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+}
+
+/* Header */
+header {
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: 26pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
+
+.contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    font-size: 9.5pt;
+    color: #4b5563;
+    line-height: 1.5;
+}
+
+.contact span {
+    white-space: nowrap;
+}
+
+/* Force line break after Email (3rd item) */
+.contact span:nth-child(3)::after {
+    content: "";
+    display: block;
+    width: 100%;
+}
+
+.contact .separator {
+    color: #d1d5db;
+    font-weight: 300;
+}
+
+.contact a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+/* Sections */
+h2 {
+    font-size: 13pt;
+    font-weight: 600;
+    color: #2563eb;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 3px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+}
+
+h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
+
+.role {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 2px;
+}
+
+.period {
+    font-size: 9.5pt;
+    color: #6b7280;
+    font-style: italic;
+    margin-bottom: 5px;
+}
+
+.description {
+    font-size: 9.5pt;
+    color: #4b5563;
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.subsection {
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-top: 6px;
+    margin-bottom: 3px;
+}
+
+/* Lists */
+ul {
+    margin-left: 18px;
+    margin-bottom: 8px;
+}
+
+li {
+    font-size: 9.5pt;
+    line-height: 1.3;
+    margin-bottom: 2px;
+    color: #374151;
+}
+
+/* Skills */
+.skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 3.5fr;
+    gap: 6px;
+    margin-bottom: 5px;
+}
+
+.skill-category {
+    font-weight: 600;
+    font-size: 9.5pt;
+    color: #1a1a1a;
+}
+
+.skill-list {
+    font-size: 9.5pt;
+    color: #374151;
+}
+
+/* Projects */
+.project {
+    margin-bottom: 12px;
+}
+
+.project-title {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+}
+
+.project-description {
+    font-size: 9.5pt;
+    color: #4b5563;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+/* Certifications */
+.cert-title {
+    font-weight: 600;
+    font-size: 9.5pt;
+    color: #1a1a1a;
+}
+
+.cert-details {
+    font-size: 9.5pt;
+    color: #4b5563;
+    margin-bottom: 2px;
+}
+
+a.cert-link {
+    font-size: 8.5pt;
+    color: #2563eb;
+}
+
+/* Spacing */
+section {
+    margin-bottom: 10px;
+}
+
+.experience-entry {
+    margin-bottom: 12px;
+}
+
+/* Print optimization */
+@media print {
+    body {
+        font-size: 9pt;  /* Smaller for better fit */
+        line-height: 1.25;  /* Tighter line spacing */
+        color: #000;
+        padding: 0;
+    }
+
+    /* Reduce spacing between sections */
+    section {
+        margin-bottom: 6px;  /* Further reduced */
+    }
+
+    h2 {
+        page-break-after: avoid;  /* Keep section titles with content */
+        margin-top: 8px;  /* Further reduced */
+        margin-bottom: 4px;  /* Further reduced */
+        font-size: 12pt;  /* Slightly smaller */
+    }
+
+    h3 {
+        page-break-after: avoid;  /* Keep company names with content */
+        margin-top: 6px;  /* Further reduced */
+        margin-bottom: 2px;
+        font-size: 10.5pt;  /* Slightly smaller */
+    }
+
+    /* Allow experience entries to break if needed, but keep company header with first item */
+    .experience-entry {
+        margin-bottom: 8px;  /* Further reduced */
+    }
+
+    /* Keep company name with at least some content */
+    .experience-entry h3 {
+        page-break-after: avoid;
+    }
+
+    /* Allow projects to break across pages if needed */
+    .project {
+        margin-bottom: 8px;  /* Further reduced */
+    }
+
+    /* Keep project title with description */
+    .project-title {
+        page-break-after: avoid;
+    }
+
+    /* Tighter list spacing */
+    ul {
+        margin-bottom: 4px;  /* Further reduced */
+        margin-left: 16px;  /* Slightly less indent */
+    }
+
+    li {
+        line-height: 1.2;  /* Even tighter */
+        margin-bottom: 0.5px;  /* Minimal spacing */
+        font-size: 9pt;
+    }
+
+    .description {
+        line-height: 1.2;  /* Tighter spacing */
+        margin-bottom: 4px;  /* Further reduced */
+        font-size: 9pt;
+    }
+
+    .subsection {
+        margin-top: 4px;  /* Further reduced */
+        margin-bottom: 1px;  /* Minimal spacing */
+        font-size: 9pt;
+    }
+
+    .role {
+        font-size: 9.5pt;
+        margin-bottom: 1px;
+    }
+
+    .period {
+        font-size: 9pt;
+        margin-bottom: 3px;
+    }
+
+    /* Header optimization */
+    header {
+        padding-bottom: 8px;  /* Further reduced */
+        margin-bottom: 10px;  /* Further reduced */
+    }
+
+    h1 {
+        font-size: 22pt;  /* Smaller */
+        margin-bottom: 4px;  /* Minimal spacing */
+    }
+
+    .contact {
+        font-size: 9pt;  /* Consistent sizing */
+        gap: 3px 8px;  /* Smaller vertical gap, reasonable horizontal */
+        line-height: 1.4;
+    }
+
+    .contact span {
+        white-space: nowrap;
+    }
+
+    /* Force line break after Email (3rd item) in print */
+    .contact span:nth-child(3)::after {
+        content: "";
+        display: block;
+        width: 100%;
+    }
+
+    .contact .separator {
+        color: #999;
+    }
+
+    /* Skills optimization */
+    .skills-grid {
+        gap: 4px;
+        margin-bottom: 3px;
+    }
+
+    .skill-category {
+        font-size: 9pt;
+    }
+
+    .skill-list {
+        font-size: 9pt;
+    }
+
+    /* Project optimization */
+    .project-title {
+        font-size: 9.5pt;
+        margin-bottom: 2px;
+    }
+
+    .project-description {
+        font-size: 9pt;
+        margin-bottom: 3px;
+        line-height: 1.2;
+    }
+
+    /* Certification optimization */
+    .certifications {
+        page-break-inside: auto;  /* Allow breaking if needed */
+    }
+
+    .cert-title {
+        font-size: 9pt;
+    }
+
+    .cert-details {
+        font-size: 8.5pt;
+        margin-bottom: 1px;
+    }
+
+    a.cert-link {
+        font-size: 8pt;
+    }
+
+    /* Education - keep compact */
+    .education {
+        page-break-inside: auto;  /* Allow breaking if needed */
+    }
+
+    .no-print {
+        display: none;
+    }
+
+    a {
+        color: #2563eb;
+        text-decoration: none;
+    }
+
+    .contact a:hover {
+        text-decoration: none;
+    }
+}
+
+/* Screen-only helper */
+@media screen {
+    .no-print {
+        margin-top: 30px;
+        padding: 20px;
+        background: #f3f4f6;
+        border-radius: 8px;
+        font-size: 10pt;
+        color: #4b5563;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Deepesh Bagora</h1>
+        <div class="contact">
+            <span>Phone: +65 87853436</span>
+            <span class="separator">|</span>
+            <span>Email: <a href="mailto:deepeshb88@gmail.com">deepeshb88@gmail.com</a></span>
+            <span class="separator">|</span>
+            <span>LinkedIn: <a href="https://www.linkedin.com/in/deepesh-bagora" target="_blank">linkedin.com/in/deepesh-bagora</a></span>
+            <span class="separator">|</span>
+            <span>Portfolio: <a href="https://deepeshbagora.github.io/info" target="_blank">deepeshbagora.github.io/info</a></span>
+        </div>
+    </header>
+
+    <section class="summary">
+        <h2>Professional Summary</h2>
+        <p class="description">
+            Senior Software Engineer with 7+ years of experience specializing in front-end development and full-stack solutions for banking and financial services, including extensive experience with OCBC Group systems. Currently delivering enterprise-scale applications at OCBC Bank with expertise in React.js, Micro-Frontends (Module Federation), and modern JavaScript frameworks. Previously built FX trading platforms for OCBC Bank and Bank of Singapore, serving wealth management and retail banking users. Proven track record architecting scalable UI components, implementing DevOps automation, and building responsive web applications used by 500+ users across multiple banking institutions. Strong background in Agile development, RESTful API integration, and Git-based workflows.
+        </p>
+    </section>
+
+    <section class="experience">
+        <h2>Experience</h2>
+
+        <div class="experience-entry">
+            <h3>P-serve Pvt. Ltd. (Contractor for OCBC Bank)</h3>
+            <div class="role">Senior Software Developer</div>
+            <div class="period">April 2025 – Present</div>
+            <p class="description">
+                Developing enterprise-wide IT Service Management platform (Infinity) for OCBC, focusing on modern front-end architecture and micro-frontend implementation.
+            </p>
+            <div class="subsection">Key Achievements</div>
+            <ul>
+                <li>Architected and implemented React Micro-Frontend (MFE) transformation using Module Federation, enabling independent module deployment, faster feature delivery, and improved scalability across multiple teams</li>
+                <li>Developed reusable React component libraries and standardized UI patterns used across Change Management, Asset Management, and Incident Management modules</li>
+                <li>Built data reconciliation dashboard for cross-system identity verification, reducing manual audit time by 60%</li>
+                <li>Enhanced CI/CD pipelines using Jenkins and Bitbucket for automated build, test, and deployment processes</li>
+            </ul>
+            <div class="subsection">Technical Contributions</div>
+            <ul>
+                <li>Designed and implemented responsive web applications using React.js, JavaScript ES6+, HTML5, and CSS3 with focus on accessibility and cross-browser compatibility</li>
+                <li>Integrated React components with RESTful APIs and implemented asynchronous request handling for optimal performance</li>
+                <li>Collaborated with backend teams on .NET Core API design and integration, leveraging full-stack knowledge to optimize data flow</li>
+                <li>Mentored team members on React best practices, Module Federation patterns, and modern JavaScript development</li>
+            </ul>
+        </div>
+
+        <div class="experience-entry">
+            <h3>Quesscorp Singapore Pte. Ltd. (Contractor for OCBC Bank)</h3>
+            <div class="role">Senior Software Developer</div>
+            <div class="period">February 2023 – February 2025</div>
+            <p class="description">
+                Delivered full-stack development for OCBC's internal automation platform, migrating legacy applications to modern web technologies.
+            </p>
+            <div class="subsection">Key Achievements</div>
+            <ul>
+                <li>Successfully migrated legacy platform to React.js and .NET Core, implementing modern UI components and improving user experience across organization-wide applications</li>
+                <li>Developed standardized React component library and reusable form framework, reducing development time by 30% and ensuring UI consistency</li>
+                <li>Implemented automated CI/CD pipelines using Jenkins and Bitbucket integration with JIRA, enabling faster deployments and streamlined release management</li>
+                <li>Enhanced application architecture from 2-tier to 3-tier, implementing RESTful APIs and modern design patterns</li>
+            </ul>
+            <div class="subsection">Technical Contributions</div>
+            <ul>
+                <li>Built responsive web forms and dashboards using React, jQuery, HTML5, CSS3, and Bootstrap for cross-functional teams</li>
+                <li>Integrated applications with upstream/downstream systems via RESTful APIs and file-based data exchange</li>
+                <li>Worked in Agile environment with Git version control, code reviews, and sprint-based delivery</li>
+                <li>Provided production support, troubleshooting front-end issues and implementing enhancements based on user feedback</li>
+            </ul>
+        </div>
+
+        <div class="experience-entry">
+            <h3>FinIQ Consulting India Pvt. Ltd.</h3>
+            <div class="role">Software Developer</div>
+            <div class="period">June 2018 – February 2023</div>
+            <p class="description">
+                Developed web-based FX trading platform for multi-national banking clients including OCBC Bank, Bank of Singapore, UOB Singapore, Ambank Malaysia, and China Bank Philippines, serving 500+ active users across wealth management and retail banking.
+            </p>
+            <div class="subsection">Key Achievements</div>
+            <ul>
+                <li>Built responsive web applications enabling real-time FX trading workflows for 500+ relationship managers, traders, and branch users across 3 countries</li>
+                <li>Developed complex web-based configuration interfaces for managing pricing rules, spreads, and customer permissions across multiple currency pairs</li>
+                <li>Automated workflows reducing processing time from 15 minutes to under 30 seconds through optimized UI and API integration</li>
+                <li>Provided on-site client support in Singapore, Malaysia, and Philippines, collaborating with business stakeholders on requirements and user training</li>
+            </ul>
+            <div class="subsection">Technical Contributions</div>
+            <ul>
+                <li>Designed and implemented web applications using JavaScript, jQuery, HTML, CSS, and ASP.NET for deal entry, pricing, and customer management</li>
+                <li>Integrated front-end applications with RESTful APIs and real-time data feeds using WebSocket technology</li>
+                <li>Developed automated testing scripts using Selenium for web application regression testing</li>
+                <li>Worked in Agile methodology with sprint-based delivery, version control, and continuous integration practices</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">Frontend Development:</div>
+            <div class="skill-list">React.js, JavaScript (ES6+), TypeScript, HTML5, CSS3, jQuery, Bootstrap, Redux</div>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category">Architecture:</div>
+            <div class="skill-list">Micro-Frontends (Module Federation), RESTful API Integration, Responsive Design, Component Libraries</div>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category">DevOps & Tools:</div>
+            <div class="skill-list">Jenkins, Bitbucket, Git, JIRA, CI/CD Pipelines, Agile Methodology</div>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category">Backend & Database:</div>
+            <div class="skill-list">.NET Core, ASP.NET, Node.js, Express, SQL Server, MongoDB, RESTful APIs</div>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category">Additional Skills:</div>
+            <div class="skill-list">Azure (AZ-204 Certified), Docker, Selenium Testing, Postman, WebSocket, Kafka</div>
+        </div>
+    </section>
+
+    <section class="projects">
+        <h2>Key Projects</h2>
+
+        <div class="project">
+            <div class="project-title">Infinity - IT Service Management Platform (OCBC Bank)</div>
+            <p class="project-description">
+                Enterprise web application for IT operations management covering Change, Asset, Application, and Incident Management modules.
+            </p>
+            <ul>
+                <li>Architected React Micro-Frontend architecture using Module Federation, enabling independent module development and deployment</li>
+                <li>Built reusable React component libraries and npm packages for standardized UI patterns across modules</li>
+                <li>Implemented real-time reconciliation dashboard with responsive design and asynchronous API integration</li>
+                <li>Migrated legacy .NET Framework application to .NET Core with React frontend, modernizing architecture and improving performance</li>
+            </ul>
+        </div>
+
+        <div class="project">
+            <div class="project-title">Vehicle Audit Management Platform (Freelance)</div>
+            <p class="project-description">
+                Cross-platform web and mobile application for vehicle inspection tracking and management.
+            </p>
+            <ul>
+                <li>Built Progressive Web App (PWA) using React Native, TypeScript, HTML5, and CSS3 with offline support</li>
+                <li>Implemented responsive UI with camera integration and GPS functionality for mobile devices</li>
+                <li>Integrated with .NET REST API and Azure cloud services for data synchronization</li>
+                <li>Designed dynamic form system enabling custom audit templates without code changes</li>
+            </ul>
+        </div>
+
+        <div class="project">
+            <div class="project-title">FX Trading Web Applications (OCBC, BOS, UOB, Ambank, China Bank)</div>
+            <p class="project-description">
+                Configurable web-based platform for foreign exchange trading, pricing, and customer management deployed to multiple banks including OCBC Bank and Bank of Singapore, serving 500+ users across wealth management and retail banking.
+            </p>
+            <ul>
+                <li>Developed responsive web interfaces for real-time price comparison, deal entry, and trade execution using JavaScript, jQuery, HTML, and CSS</li>
+                <li>Built complex configuration UI for spread management across currency pairs and customer segments</li>
+                <li>Implemented WebSocket-based real-time price streaming and asynchronous API calls for optimal performance</li>
+                <li>Created customer validation and transaction summary interfaces with RESTful API integration</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="education">
+        <h2>Education</h2>
+        <h3>RGPV Bhopal</h3>
+        <div class="role">Bachelor of Engineering - Computer Science Engineering</div>
+        <div class="period">June 2014 – June 2018</div>
+    </section>
+
+    <section class="certifications">
+        <h2>Certifications</h2>
+        <div class="cert-title">Microsoft Certified Azure Developer Associate (AZ-204)</div>
+        <div class="cert-details">April 2022 – April 2026</div>
+        <a href="https://learn.microsoft.com/api/credentials/share/en-in/deepeshbagora-1854/2D4274CACF8F8B55?sharingId=466C0974C82E77D5" class="cert-link" target="_blank">View Credential</a>
+    </section>
+
+    <div class="no-print">
+        <p style="font-weight: 600; margin-bottom: 8px;">To generate PDF:</p>
+        <p>Press Ctrl+P (or Cmd+P on Mac) → Select "Save as PDF" → Adjust margins if needed → Save</p>
+        <p style="margin-top: 8px; font-size: 9pt; color: #6b7280;">
+            Tailored for OCBC Software Engineer (UI), AVP - JR00004480 | December 2024
+        </p>
+    </div>
+</body>
+</html>
