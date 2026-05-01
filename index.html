@@ -1340,7 +1340,7 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-amber)" stroke-width="1.5"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                 </div>
                 <div class="card-title">Applied AI/ML</div>
-                <div class="card-text">Shipping real-world LLM applications—CapSight (Gemini + fine-tuned Gemma 4, HITL workflow), multi-agent orchestration with tool use, and structured-output prompting.</div>
+                <div class="card-text">Shipping real-world LLM applications—CapSight (LangChain + LangGraph HITL, multi-provider LLM, fine-tuned Gemma 4), structured-output prompting, and multi-agent workflow orchestration.</div>
             </div>
         </div>
     </section>
@@ -1617,34 +1617,34 @@
             },
             {
                 title: 'CapSight — AI Capacity Management (HITL)',
-                description: 'Enterprise IT capacity management platform that replays cloud telemetry (Azure, Borg, Alibaba) as live streams, uses Gemini AI for capacity assessments, and drives a Human-in-the-Loop decision workflow.',
+                description: 'End-to-end AI capacity management system: a Python FastAPI backend runs LangChain analysis chains and a LangGraph Human-in-the-Loop workflow, ingesting real cloud telemetry (Azure, Borg, Alibaba) and delivering operator-approved scaling recommendations via a real-time React dashboard.',
                 details: [
-                    'Trigger-based AI analysis: CPU/memory thresholds, rising-trend and anomaly-drop detectors with cooldown logic',
-                    'Linear-regression forecasting (12-point horizon, R² confidence) attached to every trigger and fed into Gemini prompts',
-                    'Three-tier Gemini response strategy: session cache → pre-computed responses → live API with structured JSON output',
-                    'Human-in-the-Loop decisions (Approve / Modify / Reject / Defer) with outcome simulation for each action',
-                    'Fine-tuned Gemma 4 E4B on domain data using Unsloth + QLoRA (SFTTrainer, 3 epochs) — exported to GGUF for Ollama',
-                    'Python data pipeline streaming HuggingFace Parquet datasets; template-based Q&A generator producing 1,000 training pairs across 6 scenarios',
-                    'Multi-agent build: Claude Code (data + services + fine-tune) coordinated with Antigravity (React UI) via a frozen interfaces.ts contract'
+                    'LangChain analysis chain with ChatPromptTemplate + with_structured_output() — enforces strict JSON schema per provider natively (Gemini responseMimeType, Anthropic tool-use, OpenAI json_schema); same chain runs across any configured LLM with heuristic fallback when LLM is unavailable',
+                    'LangGraph HITL workflow: 3-node state machine (analyze → await_human interrupt → apply_decision) — graph suspends at the human node, broadcasts analysis to dashboard via WebSocket, resumes on operator decision (Approve / Modify / Reject / Defer), then computes projected outcome before any scaling action fires',
+                    'Event-driven Python backend: FastAPI REST + WebSocket hub, APScheduler trigger evaluation (CPU/memory thresholds, rising-trend, anomaly-drop with cooldown), SQLite telemetry persistence, and a Docker Compose closed-loop demo (collector.py → backend → applier.py applying docker update to live containers)',
+                    'Linear-regression forecasting (12-point horizon, R² confidence) attached to every trigger event and injected into LLM prompts to ground capacity predictions in observed trend data',
+                    'Fine-tuned Gemma 4 E4B on domain-specific capacity assessment data using Unsloth + QLoRA (SFTTrainer, 3 epochs, Kaggle P100) — exported to GGUF for Ollama local inference',
+                    'Python data pipeline streaming HuggingFace Parquet datasets (Azure, Borg, Alibaba cloud telemetry); template-based Q&A generator producing 1,000 training pairs across 6 capacity scenario types (assessment, scaling, anomaly, forecast, comparison, cost)',
+                    'React + TypeScript + Vite frontend with Recharts live telemetry chart, AI analysis panel, decision panel, and outcome simulator — all wired to backend via REST + WebSocket; 15/15 E2E integration tests passing'
                 ],
-                tags: ['Gemini', 'Gemma 4', 'Unsloth', 'QLoRA', 'React', 'TypeScript', 'HITL', 'Multi-Agent'],
+                tags: ['LangChain', 'LangGraph', 'FastAPI', 'Python', 'Gemma 4', 'QLoRA', 'React', 'TypeScript', 'HITL', 'Docker'],
                 category: 'ai-ml',
                 status: 'In Development'
             },
             {
-                title: 'AI Workflow Automation Platform',
-                description: 'Multi-agent orchestration platform for intelligent task routing, tool use, and real-world automation — spanning scheduling, research, and decision workflows.',
+                title: 'Personal AI Cloud — Self-Hosted Agent & RAG Platform',
+                description: 'Designed and operate a 24-container AI platform on Oracle Cloud free tier: a single orchestrator agent (Astra) with a 4-tier LLM fallback chain, LightRAG graph-based retrieval running fully locally on Ollama, TechPrep learning app on a full Supabase stack, n8n workflow automation, and MinIO S3 storage — all behind NGINX with SSL. Evolved from a 5-agent multi-instance architecture after measuring token consumption and consolidating to cut costs while preserving capability.',
                 details: [
-                    'Multi-agent architecture: planner, researcher, executor agents coordinating via shared state and tool handoffs',
-                    'Intelligent model router selecting the optimal LLM per task (Claude / OpenAI / open-weights) based on complexity, latency, and cost',
-                    'Tool-use layer integrating n8n workflows, calendar, email, and custom APIs for end-to-end real-world actions',
-                    'Claude-driven autonomous operations with guardrails, retries, and cost-optimised caching strategies',
-                    'Observability: per-agent traces, token accounting, and prompt/response caching for repeat tasks',
-                    'Scalable cloud deployment supporting multiple compute providers'
+                    'Architectural evolution: started with 5 specialised agents (Sage/Opus for planning, Cody/Sonnet for dev, Tessy/GLM+Playwright for QA, Candy/Sonnet for job search) — measured real token consumption, consolidated to single Astra instance with a 4-tier model fallback chain: GLM-5-turbo → GLM-4.7 → Claude Sonnet 4.6 → local Ollama/qwen2.5 (zero API cost fallback)',
+                    'LightRAG: graph-based RAG system (builds entity/relation knowledge graphs, not just vector similarity) running fully locally — Ollama qwen2.5:1.5b for LLM inference + nomic-embed-text for embeddings — no cloud LLM cost for retrieval operations',
+                    'TechPrep learning platform: Next.js frontend on a full self-hosted Supabase stack (GoTrue auth, PostgREST REST API, Realtime WebSocket subscriptions, Edge Functions on Deno, Kong API gateway, Storage with imgproxy) — n8n webhook integration for AI content generation triggers, Telegram notifications for new quizzes',
+                    'SSH bridge with smart routing between Astra and Claude Code: keyword-matched fast path (wrapper scripts, 2–15s) for resume generation, job search, portfolio queries vs. full Claude Code slow path (30–120s) for multi-file refactoring — decision made at runtime from task type detection',
+                    'Production cron automation 24/7: daily job search via Astra, TechPrep AI content generation, weekly memory compression, email processing every 30 min, daily git commit — all status reported to Telegram',
+                    'Infrastructure: NGINX (SSL termination, path-based routing for 8 services, WebSocket, Let\'s Encrypt + auto-renewal), Docker socket proxy (whitelisted API endpoints instead of raw socket — blocks host escape, swarm, secrets), MinIO S3 (console + API via NGINX subpath), MCP servers wired to Astra (web-search, web-reader, notebooklm)'
                 ],
-                tags: ['Python', 'Multi-Agent', 'Claude', 'n8n', 'LLM APIs', 'Tool Use'],
+                tags: ['Multi-Agent', 'LightRAG', 'RAG', 'Supabase', 'Ollama', 'Docker', 'GLM', 'Next.js', 'n8n'],
                 category: 'ai-ml',
-                status: 'In Development'
+                status: 'In Production'
             },
         ];
 
