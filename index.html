@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deepesh Bagora — Senior Software Developer</title>
-    <meta name="description" content="Senior Software Developer with 7+ years across FX trading systems, enterprise integration frameworks (20+ systems), and applied AI/ML — real-world LLM applications, fine-tuning (Gemma 4 + Unsloth/QLoRA), and multi-agent workflow orchestration.">
+    <meta name="description" content="Senior Software Developer with 7+ years across FX trading systems, enterprise integration frameworks (20+ systems), and applied AI/ML — real-world LLM applications, fine-tuning (Gemma 4 + Unsloth/QLoRA), LangChain + LangGraph pipelines, and AI agent infrastructure.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1247,8 +1247,8 @@
             <br>
             <div class="cm">// Currently building:</div>
             <div><span class="kw">await</span> <span class="fn">dev</span>.<span class="fn">build</span>([</div>
-            <div>  <span class="st">"CapSight"</span>,</div>
-            <div>  <span class="st">"Multi-Agent Workflows"</span></div>
+            <div>  <span class="st">"CapSight — LangGraph HITL"</span>,</div>
+            <div>  <span class="st">"Astra — Secure AI Agent"</span></div>
             <div>]);</div>
         </div>
 
@@ -1269,7 +1269,7 @@
             </p>
 
             <p class="hero-desc">
-                Architecting enterprise integration frameworks connecting <span class="highlight">20+ systems</span>, real-time FX trading platforms, and shipping <span class="highlight">applied AI/ML</span>—real-world LLM applications, fine-tuning, and multi-agent workflow orchestration.
+                Architecting enterprise integration frameworks connecting <span class="highlight">20+ systems</span>, real-time FX trading platforms, and shipping <span class="highlight">applied AI/ML</span>—real-world LLM applications, fine-tuning, LangChain + LangGraph pipelines, and AI agent infrastructure.
                 Full-stack expertise across C#, .NET, React, Python, and Azure.
             </p>
 
@@ -1340,7 +1340,7 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-amber)" stroke-width="1.5"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                 </div>
                 <div class="card-title">Applied AI/ML</div>
-                <div class="card-text">Shipping real-world LLM applications—CapSight (LangChain + LangGraph HITL, multi-provider LLM, fine-tuned Gemma 4), structured-output prompting, and multi-agent workflow orchestration.</div>
+                <div class="card-text">Shipping real-world LLM applications—CapSight (LangChain + LangGraph HITL, multi-provider LLM, fine-tuned Gemma 4), structured-output prompting, and AI agent isolation and deployment.</div>
             </div>
         </div>
     </section>
@@ -1417,7 +1417,7 @@
         <div class="section-header">
             <div class="section-label">05 — AI/ML</div>
             <h2 class="section-title">AI/ML Projects</h2>
-            <p class="section-subtitle">Applied AI/ML with hands-on projects in real-world LLM applications, fine-tuning, Human-in-the-Loop workflows, and multi-agent orchestration.</p>
+            <p class="section-subtitle">Applied AI/ML with hands-on projects in real-world LLM applications, fine-tuning, Human-in-the-Loop workflows, and AI agent infrastructure.</p>
         </div>
         <div id="aiProjectsGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem;"></div>
     </section>
@@ -1632,17 +1632,17 @@
                 status: 'In Development'
             },
             {
-                title: 'Personal AI Cloud — Self-Hosted Agent & RAG Platform',
-                description: 'Designed and operate a 24-container AI platform on Oracle Cloud free tier: a single orchestrator agent (Astra) with a 4-tier LLM fallback chain, LightRAG graph-based retrieval running fully locally on Ollama, TechPrep learning app on a full Supabase stack, n8n workflow automation, and MinIO S3 storage — all behind NGINX with SSL. Evolved from a 5-agent multi-instance architecture after measuring token consumption and consolidating to cut costs while preserving capability.',
+                title: 'Astra — Secure AI Agent with Isolated Container Orchestration',
+                description: 'Engineered a security-first deployment for an autonomous AI agent (Astra) running in an isolated Docker container — designed capability boundaries so the agent can spawn its own sub-containers, collaborate with Claude Code via shared storage, and query a local LightRAG knowledge graph, while being prevented from escaping to the host or reaching the broader infrastructure.',
                 details: [
-                    'Architectural evolution: started with 5 specialised agents (Sage/Opus for planning, Cody/Sonnet for dev, Tessy/GLM+Playwright for QA, Candy/Sonnet for job search) — measured real token consumption, consolidated to single Astra instance with a 4-tier model fallback chain: GLM-5-turbo → GLM-4.7 → Claude Sonnet 4.6 → local Ollama/qwen2.5 (zero API cost fallback)',
-                    'LightRAG: graph-based RAG system (builds entity/relation knowledge graphs, not just vector similarity) running fully locally — Ollama qwen2.5:1.5b for LLM inference + nomic-embed-text for embeddings — no cloud LLM cost for retrieval operations',
-                    'TechPrep learning platform: Next.js frontend on a full self-hosted Supabase stack (GoTrue auth, PostgREST REST API, Realtime WebSocket subscriptions, Edge Functions on Deno, Kong API gateway, Storage with imgproxy) — n8n webhook integration for AI content generation triggers, Telegram notifications for new quizzes',
-                    'SSH bridge with smart routing between Astra and Claude Code: keyword-matched fast path (wrapper scripts, 2–15s) for resume generation, job search, portfolio queries vs. full Claude Code slow path (30–120s) for multi-file refactoring — decision made at runtime from task type detection',
-                    'Production cron automation 24/7: daily job search via Astra, TechPrep AI content generation, weekly memory compression, email processing every 30 min, daily git commit — all status reported to Telegram',
-                    'Infrastructure: NGINX (SSL termination, path-based routing for 8 services, WebSocket, Let\'s Encrypt + auto-renewal), Docker socket proxy (whitelisted API endpoints instead of raw socket — blocks host escape, swarm, secrets), MinIO S3 (console + API via NGINX subpath), MCP servers wired to Astra (web-search, web-reader, notebooklm)'
+                    'Docker socket proxy instead of raw socket mount — whitelists specific Docker API endpoints (create, start, stop, exec, build, networks) while denying swarm, secrets, and registry auth; proxy runs on an internal-only network with no internet route, so the management channel itself cannot be used for egress',
+                    'Dual network isolation: socket-proxy-net (agent ↔ proxy only, internal: true, no internet) and agent-shared-net (agent-spawned containers + MinIO for file handoffs) — Astra spawns project containers onto agent-shared-net so they can reach shared databases by name without touching host networking',
+                    'Cross-tool collaboration via shared OneDrive mount (astra/ dir) as a handoff zone — Astra writes outputs that Claude Code sessions read from the same synced directory, enabling async handoff between the isolated agent and host-side tooling without direct coupling',
+                    'LightRAG graph-based RAG running fully locally on Ollama — builds entity and relation knowledge graphs over ingested documents rather than plain vector similarity; qwen2.5:1.5b for inference + nomic-embed-text for embeddings, zero cloud LLM cost for retrieval',
+                    'Multi-provider LLM fallback chain: GLM-5-turbo (free tier) → GLM-4.7 → Claude Sonnet 4.6 → local Ollama/qwen2.5:1.5b — agent always has a zero-cost floor without manual intervention; MCP servers (web-search, web-reader, zread, notebooklm) extend capabilities without custom tool code',
+                    'Evolved from a 5-agent multi-instance setup (orchestrator, planning agent/Opus, coding agent/Sonnet, testing agent/GLM+Playwright) — measured token consumption across agents, identified redundant context overhead, consolidated to single-instance with model routing to preserve specialisation at lower cost'
                 ],
-                tags: ['Multi-Agent', 'LightRAG', 'RAG', 'Supabase', 'Ollama', 'Docker', 'GLM', 'Next.js', 'n8n'],
+                tags: ['Docker Security', 'AI Agent', 'LightRAG', 'RAG', 'Ollama', 'MCP', 'Multi-Provider LLM', 'GLM'],
                 category: 'ai-ml',
                 status: 'In Production'
             },
