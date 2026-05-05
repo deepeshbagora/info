@@ -1889,5 +1889,262 @@
             });
         });
     </script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         Portfolio Chatbot Widget — "Candy 🍬"
+         Backend: n8n webhook → OpenClaw (Candy agent)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <style>
+        #candy-launcher {
+            position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+            width: 56px; height: 56px; border-radius: 50%; cursor: pointer;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
+            color: #0b0f14; border: none;
+            box-shadow: 0 8px 24px rgba(0, 217, 255, 0.35), 0 2px 8px rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #candy-launcher:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 12px 32px rgba(0, 217, 255, 0.5); }
+        #candy-launcher.hidden { display: none; }
+
+        #candy-panel {
+            position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+            width: 380px; max-width: calc(100vw - 32px);
+            height: 560px; max-height: calc(100vh - 48px);
+            background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+            border-radius: 16px; box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+            display: none; flex-direction: column; overflow: hidden;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        #candy-panel.open { display: flex; }
+
+        #candy-header {
+            padding: 14px 16px; display: flex; align-items: center; gap: 10px;
+            background: var(--bg-overlay); border-bottom: 1px solid var(--border-subtle);
+        }
+        #candy-header .avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
+            display: flex; align-items: center; justify-content: center; font-size: 18px;
+        }
+        #candy-header .meta { flex: 1; }
+        #candy-header .name { color: var(--text-primary); font-weight: 600; font-size: 14px; }
+        #candy-header .status { color: var(--text-secondary); font-size: 11px; display: flex; align-items: center; gap: 6px; }
+        #candy-header .status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald); }
+        #candy-close {
+            background: none; border: none; color: var(--text-secondary); cursor: pointer;
+            font-size: 20px; padding: 4px 8px; border-radius: 6px;
+        }
+        #candy-close:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+
+        #candy-messages {
+            flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px;
+            scrollbar-width: thin; scrollbar-color: var(--border-muted) transparent;
+        }
+        #candy-messages::-webkit-scrollbar { width: 6px; }
+        #candy-messages::-webkit-scrollbar-thumb { background: var(--border-muted); border-radius: 3px; }
+        .candy-msg {
+            max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 14px;
+            line-height: 1.5; word-wrap: break-word; white-space: pre-wrap;
+        }
+        .candy-msg.bot {
+            align-self: flex-start; background: var(--bg-overlay); color: var(--text-primary);
+            border: 1px solid var(--border-subtle); border-bottom-left-radius: 4px;
+        }
+        .candy-msg.user {
+            align-self: flex-end; background: var(--accent-cyan-dim); color: var(--text-primary);
+            border: 1px solid var(--accent-cyan-glow); border-bottom-right-radius: 4px;
+        }
+        .candy-msg.error {
+            align-self: flex-start; background: rgba(240, 136, 62, 0.1); color: var(--accent-amber);
+            border: 1px solid rgba(240, 136, 62, 0.3); font-size: 13px;
+        }
+        .candy-typing {
+            align-self: flex-start; display: flex; align-items: center; gap: 4px;
+            padding: 12px 14px; background: var(--bg-overlay); border: 1px solid var(--border-subtle);
+            border-radius: 14px; border-bottom-left-radius: 4px;
+        }
+        .candy-typing span {
+            width: 6px; height: 6px; border-radius: 50%; background: var(--accent-cyan);
+            animation: candy-bounce 1.4s infinite ease-in-out;
+        }
+        .candy-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .candy-typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes candy-bounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+        .candy-hint { color: var(--text-muted); font-size: 11px; margin-left: 8px; }
+
+        #candy-input-row {
+            padding: 12px; display: flex; gap: 8px; border-top: 1px solid var(--border-subtle);
+            background: var(--bg-surface);
+        }
+        #candy-input {
+            flex: 1; background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+            border-radius: 10px; padding: 10px 12px; color: var(--text-primary);
+            font-family: inherit; font-size: 14px; resize: none; max-height: 100px; min-height: 40px;
+            outline: none; transition: border-color 0.2s;
+        }
+        #candy-input:focus { border-color: var(--accent-cyan); }
+        #candy-input:disabled { opacity: 0.5; cursor: not-allowed; }
+        #candy-send {
+            background: var(--accent-cyan); color: #0b0f14; border: none; border-radius: 10px;
+            padding: 0 14px; cursor: pointer; font-weight: 600; font-size: 14px;
+            transition: background 0.2s, transform 0.1s;
+        }
+        #candy-send:hover:not(:disabled) { background: var(--accent-emerald); }
+        #candy-send:active:not(:disabled) { transform: scale(0.96); }
+        #candy-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        @media (max-width: 480px) {
+            #candy-panel { right: 12px; left: 12px; bottom: 12px; width: auto; height: 70vh; }
+        }
+    </style>
+
+    <button id="candy-launcher" aria-label="Chat with Candy" title="Chat with Deepesh's portfolio bot">🍬</button>
+
+    <div id="candy-panel" role="dialog" aria-label="Chat with Candy">
+        <div id="candy-header">
+            <div class="avatar">🍬</div>
+            <div class="meta">
+                <div class="name">Candy</div>
+                <div class="status">Deepesh's portfolio bot</div>
+            </div>
+            <button id="candy-close" aria-label="Close chat">×</button>
+        </div>
+        <div id="candy-messages"></div>
+        <div id="candy-input-row">
+            <textarea id="candy-input" placeholder="Ask about Deepesh's work, projects, or to get in touch…" rows="1"></textarea>
+            <button id="candy-send" aria-label="Send message">Send</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const ENDPOINT = 'https://n8n.r2dsolutions.com/webhook/portfolio-chat';
+            const SESSION_KEY = 'candySessionId';
+            const FIRST_CALL_HINT = 'First message takes ~60-90s while Candy warms up. Subsequent ones are quick.';
+
+            const $ = id => document.getElementById(id);
+            const launcher = $('candy-launcher');
+            const panel = $('candy-panel');
+            const close = $('candy-close');
+            const messages = $('candy-messages');
+            const input = $('candy-input');
+            const send = $('candy-send');
+
+            let sessionId = localStorage.getItem(SESSION_KEY);
+            if (!sessionId) {
+                sessionId = 'web-' + Math.random().toString(36).slice(2, 10) + '-' + Date.now().toString(36);
+                localStorage.setItem(SESSION_KEY, sessionId);
+            }
+            let isFirstCall = !sessionStorage.getItem('candyWarmed');
+            let busy = false;
+
+            function open() {
+                panel.classList.add('open');
+                launcher.classList.add('hidden');
+                if (!messages.children.length) {
+                    addMsg('bot', "Hey there! I'm Candy 🍬, Deepesh's portfolio bot. Ask me about his work, projects, or how to get in touch.");
+                }
+                setTimeout(() => input.focus(), 100);
+            }
+            function closePanel() {
+                panel.classList.remove('open');
+                launcher.classList.remove('hidden');
+            }
+
+            function addMsg(role, text, opts = {}) {
+                const el = document.createElement('div');
+                el.className = 'candy-msg ' + role;
+                el.textContent = text;
+                if (opts.hint) {
+                    const hint = document.createElement('div');
+                    hint.className = 'candy-hint';
+                    hint.textContent = opts.hint;
+                    el.appendChild(hint);
+                }
+                messages.appendChild(el);
+                messages.scrollTop = messages.scrollHeight;
+                return el;
+            }
+            function addTyping() {
+                const el = document.createElement('div');
+                el.className = 'candy-typing';
+                el.id = 'candy-typing-indicator';
+                el.innerHTML = '<span></span><span></span><span></span>';
+                if (isFirstCall) {
+                    const hint = document.createElement('span');
+                    hint.className = 'candy-hint';
+                    hint.textContent = FIRST_CALL_HINT;
+                    el.appendChild(hint);
+                }
+                messages.appendChild(el);
+                messages.scrollTop = messages.scrollHeight;
+                return el;
+            }
+            function removeTyping() {
+                const el = $('candy-typing-indicator');
+                if (el) el.remove();
+            }
+
+            async function sendMessage() {
+                const text = input.value.trim();
+                if (!text || busy) return;
+                busy = true;
+                input.value = '';
+                input.style.height = 'auto';
+                send.disabled = true;
+                input.disabled = true;
+                addMsg('user', text);
+                const typing = addTyping();
+                try {
+                    const ctrl = new AbortController();
+                    const timeoutId = setTimeout(() => ctrl.abort(), 150000);
+                    const res = await fetch(ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: text, sessionId: sessionId }),
+                        signal: ctrl.signal
+                    });
+                    clearTimeout(timeoutId);
+                    removeTyping();
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    const data = await res.json();
+                    const reply = Array.isArray(data) ? data[0]?.message : data.message;
+                    if (!reply) throw new Error('Empty reply');
+                    addMsg('bot', reply);
+                    isFirstCall = false;
+                    sessionStorage.setItem('candyWarmed', '1');
+                } catch (err) {
+                    removeTyping();
+                    const msg = err.name === 'AbortError'
+                        ? "Sorry, that took too long. Candy might be warming up — try once more?"
+                        : "Hmm, something went wrong reaching Candy. Please try again in a moment.";
+                    addMsg('error', msg);
+                } finally {
+                    busy = false;
+                    send.disabled = false;
+                    input.disabled = false;
+                    input.focus();
+                }
+            }
+
+            launcher.addEventListener('click', open);
+            close.addEventListener('click', closePanel);
+            send.addEventListener('click', sendMessage);
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            input.addEventListener('input', () => {
+                input.style.height = 'auto';
+                input.style.height = Math.min(input.scrollHeight, 100) + 'px';
+            });
+        })();
+    </script>
 </body>
 </html>
