@@ -1899,11 +1899,12 @@
             position: fixed; bottom: 24px; right: 24px; z-index: 9999;
             width: 56px; height: 56px; border-radius: 50%; cursor: pointer;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
-            color: #0b0f14; border: none;
+            padding: 2px; border: none;
             box-shadow: 0 8px 24px rgba(0, 217, 255, 0.35), 0 2px 8px rgba(0,0,0,0.4);
             display: flex; align-items: center; justify-content: center;
-            font-size: 24px; transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+        #candy-launcher img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
         #candy-launcher:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 12px 32px rgba(0, 217, 255, 0.5); }
         #candy-launcher.hidden { display: none; }
 
@@ -1923,10 +1924,11 @@
             background: var(--bg-overlay); border-bottom: 1px solid var(--border-subtle);
         }
         #candy-header .avatar {
-            width: 36px; height: 36px; border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-emerald));
-            display: flex; align-items: center; justify-content: center; font-size: 18px;
+            padding: 1.5px;
         }
+        #candy-header .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
         #candy-header .meta { flex: 1; }
         #candy-header .name { color: var(--text-primary); font-weight: 600; font-size: 14px; }
         #candy-header .status { color: var(--text-secondary); font-size: 11px; display: flex; align-items: center; gap: 6px; }
@@ -1976,6 +1978,15 @@
         }
         .candy-hint { color: var(--text-muted); font-size: 11px; margin-left: 8px; }
 
+        #candy-suggestions { display: flex; flex-wrap: wrap; gap: 8px; align-self: flex-start; }
+        .candy-chip {
+            background: var(--bg-overlay); color: var(--text-secondary);
+            border: 1px solid var(--border-subtle); border-radius: 999px;
+            padding: 7px 13px; font-size: 12.5px; font-family: inherit; cursor: pointer;
+            transition: border-color 0.15s, color 0.15s, background 0.15s;
+        }
+        .candy-chip:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); background: var(--accent-cyan-dim); }
+
         #candy-input-row {
             padding: 12px; display: flex; gap: 8px; border-top: 1px solid var(--border-subtle);
             background: var(--bg-surface);
@@ -2002,11 +2013,11 @@
         }
     </style>
 
-    <button id="candy-launcher" aria-label="Chat with Candy" title="Chat with Deepesh's portfolio bot">🍬</button>
+    <button id="candy-launcher" aria-label="Chat with Candy" title="Chat with Deepesh's portfolio bot"><img src="assets/candy-avatar.jpg" alt="Candy"></button>
 
     <div id="candy-panel" role="dialog" aria-label="Chat with Candy">
         <div id="candy-header">
-            <div class="avatar">🍬</div>
+            <div class="avatar"><img src="assets/candy-avatar.jpg" alt=""></div>
             <div class="meta">
                 <div class="name">Candy</div>
                 <div class="status">Deepesh's portfolio bot</div>
@@ -2015,7 +2026,7 @@
         </div>
         <div id="candy-messages"></div>
         <div id="candy-input-row">
-            <textarea id="candy-input" placeholder="Ask about Deepesh's work, projects, or to get in touch…" rows="1"></textarea>
+            <textarea id="candy-input" placeholder="Ask me anything about Deepesh…" rows="1"></textarea>
             <button id="candy-send" aria-label="Send message">Send</button>
         </div>
     </div>
@@ -2068,6 +2079,7 @@
                         history.forEach(m => addMsg(m.role, m.text, { persist: false }));
                     } else {
                         addMsg('bot', "Hey there! I'm Candy 🍬, Deepesh's portfolio bot. Ask me about his work, projects, or how to get in touch.", { persist: false });
+                        showSuggestions();
                     }
                 }
                 setTimeout(() => input.focus(), 100);
@@ -2112,6 +2124,34 @@
                 if (el) el.remove();
             }
 
+            const SUGGESTIONS = [
+                "What has Deepesh built?",
+                "His fintech & trading experience",
+                "Tech stack & AI projects",
+                "How can I get in touch?"
+            ];
+            function showSuggestions() {
+                const wrap = document.createElement('div');
+                wrap.id = 'candy-suggestions';
+                SUGGESTIONS.forEach(text => {
+                    const chip = document.createElement('button');
+                    chip.className = 'candy-chip';
+                    chip.type = 'button';
+                    chip.textContent = text;
+                    chip.addEventListener('click', () => {
+                        input.value = text;
+                        sendMessage();
+                    });
+                    wrap.appendChild(chip);
+                });
+                messages.appendChild(wrap);
+                messages.scrollTop = messages.scrollHeight;
+            }
+            function removeSuggestions() {
+                const el = $('candy-suggestions');
+                if (el) el.remove();
+            }
+
             async function sendMessage() {
                 const text = input.value.trim();
                 if (!text || busy) return;
@@ -2120,6 +2160,7 @@
                 input.style.height = 'auto';
                 send.disabled = true;
                 input.disabled = true;
+                removeSuggestions();
                 addMsg('user', text);
                 const typing = addTyping();
                 try {
