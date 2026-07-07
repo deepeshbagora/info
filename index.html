@@ -2024,7 +2024,11 @@
         (function() {
             const ENDPOINT = 'https://n8n.r2dsolutions.com/webhook/portfolio-chat';
             const SESSION_KEY = 'candySessionId';
-            const FIRST_CALL_HINT = 'First message takes ~60-90s while Candy warms up. Subsequent ones are quick.';
+            const SESSION_TS_KEY = 'candySessionTs';
+            const HISTORY_KEY = 'candyHistory';
+            const HISTORY_MAX = 40; // keep transcript cache bounded
+            const SESSION_TTL = 24 * 60 * 60 * 1000; // reset session after 24h idle to avoid unbounded context growth
+            const FIRST_CALL_HINT = 'First message takes ~20-30s while Candy warms up. Subsequent ones are quick.';
 
             const $ = id => document.getElementById(id);
             const launcher = $('candy-launcher');
@@ -2035,18 +2039,36 @@
             const send = $('candy-send');
 
             let sessionId = localStorage.getItem(SESSION_KEY);
-            if (!sessionId) {
+            const lastTs = parseInt(localStorage.getItem(SESSION_TS_KEY) || '0', 10);
+            if (!sessionId || (Date.now() - lastTs) > SESSION_TTL) {
                 sessionId = 'web-' + Math.random().toString(36).slice(2, 10) + '-' + Date.now().toString(36);
                 localStorage.setItem(SESSION_KEY, sessionId);
+                localStorage.removeItem(HISTORY_KEY); // new session, stale transcript
             }
+            localStorage.setItem(SESSION_TS_KEY, String(Date.now()));
             let isFirstCall = !sessionStorage.getItem('candyWarmed');
             let busy = false;
+
+            function loadHistory() {
+                try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+                catch { return []; }
+            }
+            function persistMsg(role, text) {
+                const history = loadHistory();
+                history.push({ role, text });
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-HISTORY_MAX)));
+            }
 
             function open() {
                 panel.classList.add('open');
                 launcher.classList.add('hidden');
                 if (!messages.children.length) {
-                    addMsg('bot', "Hey there! I'm Candy 🍬, Deepesh's portfolio bot. Ask me about his work, projects, or how to get in touch.");
+                    const history = loadHistory();
+                    if (history.length) {
+                        history.forEach(m => addMsg(m.role, m.text, { persist: false }));
+                    } else {
+                        addMsg('bot', "Hey there! I'm Candy 🍬, Deepesh's portfolio bot. Ask me about his work, projects, or how to get in touch.", { persist: false });
+                    }
                 }
                 setTimeout(() => input.focus(), 100);
             }
@@ -2059,6 +2081,7 @@
                 const el = document.createElement('div');
                 el.className = 'candy-msg ' + role;
                 el.textContent = text;
+                if (opts.persist !== false && role !== 'error') persistMsg(role, text);
                 if (opts.hint) {
                     const hint = document.createElement('div');
                     hint.className = 'candy-hint';
@@ -2117,6 +2140,7 @@
                     addMsg('bot', reply);
                     isFirstCall = false;
                     sessionStorage.setItem('candyWarmed', '1');
+                    localStorage.setItem(SESSION_TS_KEY, String(Date.now()));
                 } catch (err) {
                     removeTyping();
                     const msg = err.name === 'AbortError'
